@@ -1,0 +1,10 @@
+﻿Build started 1/22/2018 1:56:17 PM.
+     1>Project "C:\Users\jiwha_000\Desktop\School\Spring 18\Senior Design\ConsoleApplication1\ConsoleApplication1.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\jiwha_000\Desktop\School\Spring 18\Senior Design\ConsoleApplication1\Debug\ConsoleApplication1.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\Users\jiwha_000\opencv\build\x64\vc14\lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib opencv_world340d.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\jiwha_000\Desktop\School\Spring 18\Senior Design\ConsoleApplication1\Debug\ConsoleApplication1.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\jiwha_000\Desktop\School\Spring 18\Senior Design\ConsoleApplication1\Debug\ConsoleApplication1.lib" /MACHINE:X86 Debug\Source.obj
+     1>opencv_world340d.lib(opencv_world340d.dll) : fatal error LNK1112: module machine type 'x64' conflicts with target machine type 'X86'
+     1>Done Building Project "C:\Users\jiwha_000\Desktop\School\Spring 18\Senior Design\ConsoleApplication1\ConsoleApplication1.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.19
