@@ -31,7 +31,7 @@ static void findHuMoments(char* imagePointer) {
 	cout << endl;
 }
 
-int main() {
+int mainmoment() {
 
 	
 	/*Mat noDefectImg = imread(noDefect, IMREAD_COLOR);
@@ -55,7 +55,9 @@ int main() {
 	findHuMoments(noDefect7);
 	*/
 
-	findHuMoments(scratch);
+	findHuMoments("stream3no1.jpg");
+	findHuMoments("stream3no2.jpg");
+	findHuMoments("stream3no3.jpg");
 }
 
 /*

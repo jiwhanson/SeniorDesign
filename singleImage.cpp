@@ -20,8 +20,8 @@ int mainSingle() {
 	//5x5 MEDIAN FILTER
 	Mat stripImageFiltered;
 	medianBlur(stripImage, stripImageFiltered, 5);
-	//namedWindow("Median Filter", WINDOW_AUTOSIZE);
-	//imshow("Median Filter", stripImageFiltered);
+	namedWindow("Median Filter", WINDOW_AUTOSIZE);
+	imshow("Median Filter", stripImageFiltered);
 
 	//GRAYSCALE ALGORITHM FROM "AN ONLINE INSPECTION SYSTEM..."
 	//Same as default RGB -> Gray Algo
@@ -30,10 +30,11 @@ int mainSingle() {
 	namedWindow("Grayscale", WINDOW_AUTOSIZE);
 	imshow("Grayscale", stripImageGray);
 
+	/*
 	Mat contrasted;
 	equalizeHist(stripImageGray, contrasted);
 	namedWindow("contrast", WINDOW_AUTOSIZE);
-	imshow("contrast", contrasted);
+	imshow("contrast", contrasted);*/
 
 
 	//CANNY THRESHOLD
@@ -46,8 +47,8 @@ int mainSingle() {
 	Mat stripImageEdges;
 
 	//Apply Gaussian Blur
-	//blur(stripImageGray, detectedEdges, Size(3,3));
-	blur(contrasted, detectedEdges, Size(3, 3));
+	blur(stripImageGray, detectedEdges, Size(3,3));
+	//blur(contrasted, detectedEdges, Size(3, 3));
 	//Apply Canny
 	Canny(detectedEdges, detectedEdges, lowThreshold, lowThreshold * ratio, kernel_size);
 
@@ -57,7 +58,7 @@ int mainSingle() {
 	stripImageFiltered.copyTo(stripImageEdges, detectedEdges);
 
 	namedWindow("Canny Threshold", WINDOW_AUTOSIZE);
-	//imshow("Canny Threshold", stripImageEdges);
+	imshow("Canny Threshold", stripImageEdges);
 	
 	//FIND CONTOURS & BOUND THEM
 	RNG rng(12345);
@@ -93,12 +94,12 @@ int mainSingle() {
 			drawContours(contourBoundsFiltered, contours, (int)i, Scalar(255, 255, 255), 1, 8, hierarchy, 0, Point());
 
 		Point2f rect_points[4]; minRect[i].points(rect_points);
-		/*for (int j = 0; j < 4; j++) {
+		for (int j = 0; j < 4; j++) {
 			line(contourBounds, rect_points[j], rect_points[(j + 1) % 4], color, 1, 8);
 			//Dont draw box around stuff that is too small
 			if (minRect[i].size.height > 20 || minRect[i].size.width > 20)
 				line(contourBoundsFiltered, rect_points[j], rect_points[(j + 1) % 4], color, 1, 8);
-		}*/
+		}
 	}
 	
 

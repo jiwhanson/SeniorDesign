@@ -2,12 +2,11 @@
 #include "DetectionSystem.cpp"
 #include "AlertSystem.cpp"
 
-int mainZ() {
+int main() {
 	initializeStream();
 	while (hasNext()) {
 		Mat* nextImage = getNext();
 		detectDefect(nextImage);
-		displayImage(nextImage);
 		cout << "Processed String Number " << getCurrentString() << "\n";
 	}
 	waitKey(0);

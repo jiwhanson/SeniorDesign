@@ -1,6 +1,8 @@
 #ifndef IMAGESTREAM_S
 #define IMAGESTREAM_S
 
+//TODO: DEALLOCATE MET POINTER
+
 #include "ImageStream.h"
 #include <opencv2/opencv.hpp>
 #include "opencv2/imgcodecs.hpp"
@@ -16,11 +18,25 @@ static int stringNumber;
 
 static void initializeStream() {
 	//Initialize queue of strip phones
-	stream.push_back("stream1.jpg");
+	
+	//STREAM OF LINE DIVOT DEFECT
+	/*stream.push_back("stream1.jpg");
 	stream.push_back("stream2.jpg");
 	stream.push_back("stream3.jpg");
 	stream.push_back("stream4.jpg");
-	stream.push_back("stream5.jpg");
+	stream.push_back("stream5.jpg");*/
+	
+	//STREAM OF BUMP DIVOT DEFECT
+	//stream.push_back("bumpDivot1.jpg");
+	//stream.push_back("bumpDivot2.jpg");
+	//stream.push_back("bumpDivot3.jpg");
+
+	//STREAM OF BUMP DEFECT
+	stream.push_back("Bump1.jpg");
+	stream.push_back("Bump2.jpg");
+	stream.push_back("Bump3.jpg");
+	stream.push_back("Bump4.jpg");
+	
 }
 static bool hasNext() {
 	if(stream.size() > 0)
@@ -39,7 +55,7 @@ static Mat* getNext() {
 	//cout << "sent string number " << getCurrentString();
 	
 	//Return the next photo in queue
-	//deallocate the mat later
+	//DEALLOCATE THE MAT LATER
 	Mat* image = new Mat(imread(stream.front(), IMREAD_COLOR));
 	stream.pop_front();
 	return image;

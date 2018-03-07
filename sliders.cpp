@@ -8,7 +8,7 @@ using namespace std;
 
 //const char* imagePointer = "LineDivot_Side.JPG";
 //const char* imagePointer = "BumpDivot_Side.JPG";
-const char* imagePointer = "Bumps_Side.JPG";
+const char* imagePointer = "Bump4.jpg";
 Mat image = imread(imagePointer, IMREAD_COLOR);
 Mat imageMedian;
 Mat imageGray;
@@ -57,7 +57,7 @@ int mainSlide() {
 	medianBlur(image, imageMedian, 5);
 	cvtColor(imageMedian, imageGray, COLOR_BGR2GRAY);
 
-	namedWindow("Defects", WINDOW_AUTOSIZE);
+	namedWindow("Defects", WINDOW_FULLSCREEN);
 	createTrackbar("Min Threshold: ", "Defects", &lowThreshold, maxThreshold, CannyThreshold);
 	createTrackbar("Ratio: ", "Defects", &lowRatio, maxRatio, CannyThreshold);
 	createTrackbar("Min Size: ", "Defects", &lowSize, maxSize, CannyThreshold);
