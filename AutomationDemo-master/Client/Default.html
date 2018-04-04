@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Automation Web Client</title>
+</head>
+<body>
+    <div>
+        <input type="button" value="Get Product Info" onclick="return getProductInfo();" />
+        <div id="ProductInfo"></div>
+    </div>
+
+    <script type="text/javascript">
+        var url = 'ws://127.0.0.1:8023/AutomationService';
+        var connection = null;
+
+        function getProductInfo() {
+            try {
+                if (connection == null) {
+                    connection = new WebSocket(url);
+                    connection.onopen = getProductInfo;
+                    connection.onmessage = receiveMessage;
+                }
+
+                var client = new Object();
+                client.message = "Hola";
+                connection.send(JSON.stringify(client));
+            } catch (e) {
+                console.log(e);
+            }
+            return false;
+        }
+
+        function receiveMessage(e) {
+            var productInfo = JSON.parse(e.data);
+            if (productInfo != null) {
+                e = document.getElementById("ProductInfo");
+                var prodinf = productInfo.Id + productInfo.Customer;
+                if (e != null) {
+                    var html = "<label>Strip: </label><label>" + productInfo.Id + "</label>"
+                        + "<br /><label>String: </label><label>" + productInfo.Customer + "</label>" + "<br /><label> Info: </label><label>" + prodinf + "</label>"
+                        + "<br /><label>Timestamp: </label><label>" + new Date(parseInt(productInfo.Timestamp.substr(6))) + "</label>"
+                        ;
+                    e.innerHTML = html;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
