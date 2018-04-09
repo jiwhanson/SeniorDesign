@@ -20,6 +20,9 @@ using namespace std;
 static double momentAvg[] = { 0.0013625, 1.00638e-06, 3.66115e-13, 1.27802e-13, 4.69322e-26, 1.13918e-16, 1.82105e-26 };
 static double momentStd[] = { 0.000171913, 4.65321e-07, 2.47537e-13, 1.75623e-13, 7.79158e-26, 1.53297e-16, 2.71854e-26 };
 
+static double edgeMomentAvg[] = { 0.019802875, 0.000417456, 1.12741e-08, 1.13301e-08, 4.48183e-16, 2.83882e-10, 2.02036e-19};
+static double edgeMomentStd[] = { 0.005950644, 0.000218738, 2.05465e-08, 2.06981e-08, 8.93786e-16, 5.28261e-10, 3.99384e-19};
+
 static void displayImage(Mat* image) {
 	string windowName = "String " + to_string(getCurrentString());
 	namedWindow(windowName, WINDOW_AUTOSIZE);
@@ -37,20 +40,28 @@ static void displayImage(Mat* image) {
 	*/
 static bool compareMoments(double defectMoments[7]) {
 	double momentStdDiff[7];
+	double edgeDiff[7];
 	double sum = 0;
+	double edgeSum = 0;
 	for (int i = 0; i < 7; i++) {
 		momentStdDiff[i] = fabs((momentAvg[i] - defectMoments[i]) / momentStd[i]);
 		sum += momentStdDiff[i];
-		cout << "Hu Moment Diff " << i << ": " << momentStdDiff[i] << endl;
+		edgeDiff[i] = fabs((edgeMomentAvg[i] - defectMoments[i]) / edgeMomentStd[i]);
+		edgeSum += edgeDiff[i];
+		//cout << "Hu Moment Diff " << i << ": " << momentStdDiff[i] << endl;
+		//cout << "Hu Edge Moment Diff " << i << ": " << edgeDiff[i] << endl;
 	}
 	cout << "Sum: " << sum << endl;
+	cout << "Edge Sum: " << edgeSum << endl;
 	cout << endl;
 
 	//LINE DIVOT SETTINGS - CHANGE FOR OTHER DEFECTS
-	//if (sum >= 7500)
+	if (sum >= 7500)
 	//TEMPORTARY OTHER DEFECT SETTINGS - CHANGE FOR OTHER DEFECTS
 	//BUMP SETTINGS - CHANGE FOR OTHER DEFECTS
-	if(sum >= 100000000)
+	//if(sum >= 100000000)
+	//BUMP DIVOT SETTINGS - CHANGE OR OTHER DEFECTS
+	//if(sum >= 600)
 		return true;
 	return false;
 }
@@ -68,15 +79,18 @@ static void detectDefect(Mat* image) {
 	blur(*image, *image, Size(3, 3));
 
 	//Canny threshold
+	//SETTINGS FOR DEMO
+	Canny(*image, *image, 30, 30 * 3, 3);
+
 	//LINE DIVOT SETTINGS - CHANGE FOR OTHER DEFECT IMAGES
-	//Canny(*image, *image, 70, 70 * 3, 3);
+	//Canny(*image, *image, 65, 65 * 3, 3);
 
 	//BUMP DIVOT SETTINGS - CHANGE FOR OTHER DEFECT IMAGES
-	Canny(*image, *image, 55, 55 * 3, 3);
-
+	//Canny(*image, *image, 55, 55 * 3, 3);
+	
 	//BUMP SETTINGS - CHANGE FOR OTHER DEFECT IMAGES
 	//Canny(*image, *image, 57, 57 * 3, 3);
-
+	
 	//Contours
 	vector<vector<Point>> contours;
 	vector<Vec4i> hierarchy;
@@ -85,22 +99,26 @@ static void detectDefect(Mat* image) {
 	//Defect size
 	vector<RotatedRect> minRect(contours.size());
 	for (size_t i = 0; i < contours.size(); i++) {
-		drawContours(*image, contours, (int)i, Scalar(255, 255, 255), 1, 8, hierarchy, 0, Point());
-		//drawContours(originalImage, contours, (int)i, Scalar(255, 255, 255), 1, 8, hierarchy, 0, Point());
+		//drawContours(*image, contours, (int)i, Scalar(255, 255, 255), 1, 8, hierarchy, 0, Point());
+		//draws all contours on the displayed window
+		drawContours(originalImage, contours, (int)i, Scalar(255, 255, 255), 1, 8, hierarchy, 0, Point());
 		//RotatedRect
 		minRect[i] = minAreaRect(contours[i]);
 		Rect roi = boundingRect(contours[i]);
 
-		//Assume metal strip edges will be one long continuous contour
-		//TODO: set conditional to check for angle of defect (assumes strip will be straight horizontally)
-		//LINE DIVOT SETTINGS - CHANGE FOR OTHER DEFECTS
-		//if (minRect[i].size.height < 380 && minRect[i].size.width < 380) {
-		//BUMP DIVOT SETTINGS - CHANGE FOR OTHER DEFECTS
-		//if (minRect[i].size.height < 430 && minRect[i].size.width < 430) {
-		//BUMP SETTINGS - CHANGE FOR OTHER DEFECTS
-		int tempWidth = max(minRect[i].size.width, minRect[i].size.height);
-		int tempHeight = min(minRect[i].size.width, minRect[i].size.height);
-		if (tempWidth < 280 || tempHeight > 10) {
+		//Edge conditions:
+		//Width: 80% of total image width
+		//Height: less than 15px
+		//Angle: less than 2.5 degrees
+		double angle;
+		if (minRect[i].size.width < minRect[i].size.height) {
+			angle = minRect[i].angle + 90;
+		}
+		else {
+			angle = minRect[i].angle;
+		}
+		bool isEdge = (roi.width >= Mat(*image).cols * .50) && (roi.height <= 15) && (angle <= 2.5);
+		if (!isEdge) {
 			Mat defectArea = Mat(originalImage, roi);
 			Moments areaMoments = moments(defectArea, false);
 			double huMoments[7];
@@ -108,7 +126,8 @@ static void detectDefect(Mat* image) {
 			for (int i = 0; i < 7; i++) {
 				//cout << "Hu Moment " << i << ": " << huMoments[i] << endl;
 			}
-			cout << roi.height << endl;
+			cout << "Height Min: " << minRect[i].size.height << endl;
+			cout << "Width Min: " << minRect[i].size.width << endl;
 			cout << endl;
 			//compareMoments returns true if moments vary enough to be labeled a defect
 			if (compareMoments(huMoments)) {
@@ -122,5 +141,9 @@ static void detectDefect(Mat* image) {
 		}
 	}
 	displayImage(&originalImage);
+	//namedWindow("Original", WINDOW_AUTOSIZE);
+	//namedWindow("Processed", WINDOW_AUTOSIZE);
+	//imshow("Original", originalImage);
+	//imshow("Processed", *image);
 }
 #endif

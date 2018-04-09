@@ -15,10 +15,22 @@ const char* ptrImage800 = "imageTest800.jpg";
 const char* ptrImage1600 = "imageTest1600.jpg";
 const char* ptrImage3200 = "imageTest3200.jpg";
 
+static bool dummyHuCompare(double defectMoments[7]) {
+	double momentStdDiff[7];
+	double sum = 0;
+	for (int i = 0; i < 7; i++) {
+		momentStdDiff[i] = fabs((0 - defectMoments[i]) / 1);
+		sum += momentStdDiff[i];
+	}
+	return true;
+}
+
 static void thresholdProcess(char* imagePointer) {
 	auto start = high_resolution_clock::now();
 
 	Mat image = imread(imagePointer, IMREAD_COLOR);
+	Mat imageOriginal = imread(imagePointer, IMREAD_COLOR);
+	cvtColor(imageOriginal, imageOriginal, COLOR_BGR2GRAY);
 	RNG rng(12345);
 	vector<vector<Point>> contours;
 	vector<Vec4i> hierarchy;
@@ -30,9 +42,19 @@ static void thresholdProcess(char* imagePointer) {
 	findContours(image, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE, Point(0, 0));
 
 	vector<RotatedRect> minRect(contours.size());
-	for (size_t i = 0; i < contours.size(); i++) {
+	for (size_t i = 0; i < contours.size(); i++) {	//change i < 10 for large pics
 		minRect[i] = minAreaRect(contours[i]);
+		Rect roi = boundingRect(contours[i]);
+		Mat defectArea = Mat(imageOriginal, roi);
+		Moments areaMoments = moments(defectArea, false);
+		double huMoments[7];
+		HuMoments(areaMoments, huMoments);
+		if (dummyHuCompare(huMoments)) {
+			int a = 0;
+			//cout << "compared moment" << endl;
+		}
 	}
+	
 
 	auto stop = high_resolution_clock::now();
 	int rows = image.rows;

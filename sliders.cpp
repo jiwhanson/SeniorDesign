@@ -8,7 +8,7 @@ using namespace std;
 
 //const char* imagePointer = "LineDivot_Side.JPG";
 //const char* imagePointer = "BumpDivot_Side.JPG";
-const char* imagePointer = "Bump4.jpg";
+const char* imagePointer = "BigLineDiag1.jpg";
 Mat image = imread(imagePointer, IMREAD_COLOR);
 Mat imageMedian;
 Mat imageGray;
