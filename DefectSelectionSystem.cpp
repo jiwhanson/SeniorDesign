@@ -12,8 +12,8 @@
 using namespace cv;
 using namespace std;
 
-static double momentAvg[] = { 0.0013625, 1.00638e-06, 3.66115e-13, 1.27802e-13, 4.69322e-26, 1.13918e-16, 1.82105e-26 };
-static double momentStd[] = { 0.000171913, 4.65321e-07, 2.47537e-13, 1.75623e-13, 7.79158e-26, 1.53297e-16, 2.71854e-26 };
+static double momentAvg[] = { 0.00528502, 2.71022e-05, 2.64451e-09, 2.66948e-09, 1.42644e-17, 1.58198e-11, 1.10714e-19 };
+static double momentStd[] = { 0.00138296, 1.24452e-05,2.91064e-09, 2.88728e-09, 2.46557e-17, 1.89436e-11, 2.10152e-19 };
 
 static void calculateDev(double defectMoments[7]) {
 	double momentStdDiff[7];
@@ -26,7 +26,7 @@ static void calculateDev(double defectMoments[7]) {
 
 static void selectDefects(Mat* image) {
 	//Median blur
-	medianBlur(*image, *image, 5);
+	medianBlur(*image, *image, 11);
 	//Grayscale - LINE SCAN CAMERA IS GRAYSCALE AND THIS OPERATION WILL BE REMOVED
 	cvtColor(*image, *image, COLOR_BGR2GRAY);
 
@@ -38,7 +38,7 @@ static void selectDefects(Mat* image) {
 
 	//Canny threshold
 	//LINE DIVOT SETTINGS - CHANGE FOR OTHER DEFECT IMAGES
-	Canny(*image, *image, 65, 65 * 3, 3);
+	Canny(*image, *image, 70, 70 * 3, 3);
 
 	//Contours
 	vector<vector<Point>> contours;
@@ -78,7 +78,7 @@ static void selectDefects(Mat* image) {
 	}
 }
 
-int mainSelect() {
+int main() {
 	initializeStream();
 	while (hasNext()) {
 		Mat* nextImage = getNext();

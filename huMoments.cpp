@@ -59,6 +59,8 @@ int mainMoment() {
 	findHuMoments("edge2.jpg");
 	findHuMoments("edge3.jpg");
 	findHuMoments("edge4.jpg");
+
+	return 0;
 }
 
 /*

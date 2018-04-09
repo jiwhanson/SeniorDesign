@@ -61,16 +61,25 @@ static void initializeStream() {
 	stream.push_back("Bump4.jpg");*/
 
 	stream.push_back("BigLineDiag1.jpg");
-	//stream.push_back("BigLineDiag3.jpg");
+	stream.push_back("BigLineDiag2.jpg");
+	stream.push_back("BigLineDiag3.jpg");
 	stream.push_back("BigLineVert1.jpg");
+	stream.push_back("BigLineVert2.jpg");
 	stream.push_back("BigLineVert3.jpg");
+	stream.push_back("BumpBump1.jpg");
+	stream.push_back("BumpBump2.jpg");
 	stream.push_back("BumpBump3.jpg");
+	stream.push_back("BumpScratchHoriz1.jpg");
+	stream.push_back("BumpScratchHoriz2.jpg");
 	stream.push_back("BumpScratchHoriz3.jpg");
-	//stream.push_back("LineDiag1.jpg");
+	stream.push_back("LineDiag1.jpg");
+	stream.push_back("LineDiag2.jpg");
 	stream.push_back("LineDiag3.jpg");
-	//stream.push_back("LineHorz1.jpg");
-	//stream.push_back("LineHorz3.jpg");
-	//stream.push_back("LineVert1.jpg");
+	stream.push_back("LineHorz1.jpg");
+	stream.push_back("LineHorz2.jpg");
+	stream.push_back("LineHorz3.jpg");
+	stream.push_back("LineVert1.jpg");
+	stream.push_back("LineVert2.jpg");
 	stream.push_back("LineVert3.jpg");
 	
 }

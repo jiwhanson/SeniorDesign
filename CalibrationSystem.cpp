@@ -108,7 +108,7 @@ static void calibrateMoments(Mat* image, double hu[]) {
 	double huMoments[7];
 	HuMoments(areaMoments, huMoments);
 	for (int i = 0; i < 7; i++) {
-		hu[i] = huMoments[i];
+		hu[i] = fabs(huMoments[i]);
 	}
 
 	rectangle(originalImage, roi, Scalar(255, 255, 255), 1);
@@ -134,7 +134,7 @@ static double findStdDev(vector<double> momentVec) {
 	return deviation;
 }
 
-int main() {
+int mainCalibrate() {
 	vector<double> hu1, hu2, hu3, hu4, hu5, hu6, hu7;
 	double hu[7];
 	initializeStream();
