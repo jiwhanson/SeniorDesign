@@ -36,14 +36,15 @@ static void calibrateMoments(Mat* image, double hu[]) {
 	medianBlur(*image, *image, 11);
 	Mat a = *image;		//IDK why but I need this for clone() to work
 	Mat originalImage = a.clone();
+	Mat edges = a.clone();
 	//Gaussian blur
 	blur(*image, *image, Size(3, 3));
 	//Canny threshold
-	Canny(*image, *image, lowThreshold, lowThreshold * double(lowRatio/10.0), 3);
+	Canny(*image, edges/**image*/, lowThreshold, lowThreshold * 3/*double(lowRatio/10.0)*/, 3);
 	//Contours
 	vector<vector<Point>> contours;
 	vector<Vec4i> hierarchy;
-	findContours(*image, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE, Point(0, 0));
+	findContours(edges/**image*/, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE, Point(0, 0));
 	//Defect size
 	vector<float> cropTracker;
 	for (size_t i = 0; i < contours.size(); i++) {
@@ -90,11 +91,14 @@ static void calibrateMoments(Mat* image, double hu[]) {
 		for (int i = 0; i < 7; i++) {
 			hu[i] = huMoments[i];
 		}
+		hu1.push_back(hu[0]); hu2.push_back(hu[1]); hu3.push_back(hu[2]); hu4.push_back(hu[3]);
+		hu5.push_back(hu[4]); hu6.push_back(hu[5]); hu7.push_back(hu[6]);
 		//Draw area of interest onto edge map
-		rectangle(*image, roi, Scalar(255, 255, 255), 1);
+		//rectangle(*image, roi, Scalar(255, 255, 255), 1);
 	}
 	//Display edges and calibration area to Canny Calibration window
-	imshow("Canny Calibration", *image);
+	imshow("Canny Calibration", edges);
+	waitKey(1);
 }
 
 static double findAverage(vector<double> momentVec) {
@@ -132,7 +136,7 @@ static bool compareMoments(double defectMoments[7]) {
 //TODO:
 //Add code for sounding alert: saving image, etc
 static void soundAlert() {
-
+	
 }
 
 static void detectDefect(Mat* image) {
@@ -140,14 +144,15 @@ static void detectDefect(Mat* image) {
 	medianBlur(*image, *image, 11);
 	Mat a = *image;		//IDK why but I need this for clone() to work
 	Mat originalImage = a.clone();
+	Mat edges;
 	//Gaussian blur
 	blur(*image, *image, Size(3, 3));
 	//Canny threshold
-	Canny(*image, *image, lowThreshold, lowThreshold * double(lowRatio / 10.0), 3);
+	Canny(*image, edges/**image*/, lowThreshold, lowThreshold * double(lowRatio / 10.0), 3);
 	//Contours
 	vector<vector<Point>> contours;
 	vector<Vec4i> hierarchy;
-	findContours(*image, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE, Point(0, 0));
+	findContours(edges/**image*/, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE, Point(0, 0));
 	//Defect size
 	for (size_t i = 0; i < contours.size(); i++) {
 		//RotatedRect
@@ -179,7 +184,7 @@ static void detectDefect(Mat* image) {
 	}
 }
 
-int mainAlert()
+int main()
 {
 	// Automagically call PylonInitialize and PylonTerminate to ensure the pylon runtime system
 	// is initialized during the lifetime of this object.
@@ -237,8 +242,6 @@ int mainAlert()
 				//Rotate image from camera to be horizontal
 				rotate(openCvImage, openCvImage, ROTATE_90_COUNTERCLOCKWISE);
 				calibrateMoments(&openCvImage, hu);
-				hu1.push_back(hu[0]); hu2.push_back(hu[1]); hu3.push_back(hu[2]); hu4.push_back(hu[3]);
-				hu5.push_back(hu[4]); hu6.push_back(hu[5]); hu7.push_back(hu[6]);
 			}
 			else
 			{
@@ -248,8 +251,8 @@ int mainAlert()
 
 			auto stop = high_resolution_clock::now();
 			auto duration = duration_cast<microseconds>(stop - start);
-			//Break calibration loop after 30 seconds
-			if (duration.count() > 5000) {
+			//Break calibration loop after 30 seconds/ 10 seconds for testing rn
+			if (duration.count() > 10000000) {
 				break;
 			}
 		}
@@ -259,6 +262,7 @@ int mainAlert()
 		momentStd[4] = findStdDev(hu5); momentStd[5] = findStdDev(hu6); momentStd[6] = findStdDev(hu7);
 
 		cout << "Calibration Finished" << endl;
+		destroyWindow("Canny Calibration");
 		cout << "Beginning Detection..." << endl;
 
 		while (camera.IsGrabbing())
