@@ -1,34 +1,33 @@
-﻿Build started 3/5/2018 3:14:16 PM.
-     1>Project "C:\Users\jiwha_000\Desktop\School\Spring 18\Senior Design\ConsoleApplication1\ConsoleApplication1.vcxproj" on node 2 (Rebuild target(s)).
+﻿Build started 4/8/2018 7:38:30 PM.
+     1>Project "C:\Users\jiwha_000\Desktop\School\Spring 18\Senior Design\ConsoleApplication1\ConsoleApplication1.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /IC:\Users\jiwha_000\opencv\build\x64\vc14\..\..\include /Zi /nologo /W3 /WX- /sdl /O2 /Oi /GL /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Release\\" /Fd"x64\Release\vc140.pdb" /Gd /TP /errorReport:prompt AlertSystem.cpp DetectionSystem.cpp huMoments.cpp ImageStream.cpp main.cpp singleImage.cpp sliders.cpp timingTest.cpp
-         AlertSystem.cpp
-         DetectionSystem.cpp
-     1>DetectionSystem.cpp(101): warning C4244: 'initializing': conversion from 'const float' to 'int', possible loss of data
-     1>DetectionSystem.cpp(102): warning C4244: 'initializing': conversion from 'const float' to 'int', possible loss of data
-         huMoments.cpp
-         ImageStream.cpp
-         main.cpp
-     1>c:\users\jiwha_000\desktop\school\spring 18\senior design\consoleapplication1\DetectionSystem.cpp(101): warning C4244: 'initializing': conversion from 'const float' to 'int', possible loss of data
-     1>c:\users\jiwha_000\desktop\school\spring 18\senior design\consoleapplication1\DetectionSystem.cpp(102): warning C4244: 'initializing': conversion from 'const float' to 'int', possible loss of data
-         singleImage.cpp
-         sliders.cpp
-         timingTest.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /IC:\Users\jiwha_000\opencv\build\x64\vc14\..\..\include /I"C:\Program Files\Basler\pylon 5\development\include" /Zi /nologo /W3 /WX- /sdl /O2 /Oi /GL /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"x64\Release\\" /Fd"x64\Release\vc140.pdb" /Gd /TP /errorReport:prompt CalibrationSystem.cpp
+         CalibrationSystem.cpp
+     1>CalibrationSystem.cpp(101): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+     1>CalibrationSystem.cpp(102): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\jiwha_000\Desktop\School\Spring 18\Senior Design\ConsoleApplication1\x64\Release\ConsoleApplication1.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:C:\Users\jiwha_000\opencv\build\x64\vc14\lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib opencv_world340.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\jiwha_000\Desktop\School\Spring 18\Senior Design\ConsoleApplication1\x64\Release\ConsoleApplication1.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\jiwha_000\Desktop\School\Spring 18\Senior Design\ConsoleApplication1\x64\Release\ConsoleApplication1.lib" /MACHINE:X64 x64\Release\AlertSystem.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\jiwha_000\Desktop\School\Spring 18\Senior Design\ConsoleApplication1\x64\Release\ConsoleApplication1.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:C:\Users\jiwha_000\opencv\build\x64\vc14\lib /LIBPATH:"C:\Program Files\Basler\pylon 5\development\lib\x64" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib opencv_world340.lib opencv_world340.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\jiwha_000\Desktop\School\Spring 18\Senior Design\ConsoleApplication1\x64\Release\ConsoleApplication1.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\jiwha_000\Desktop\School\Spring 18\Senior Design\ConsoleApplication1\x64\Release\ConsoleApplication1.lib" /MACHINE:X64 x64\Release\AlertSystem.obj
+         x64\Release\BasslerCameraTest.obj
+         x64\Release\CalibrationSystem.obj
+         x64\Release\DefectSelectionSystem.obj
          x64\Release\DetectionSystem.obj
+         x64\Release\gpuTimingTest.obj
          x64\Release\huMoments.obj
          x64\Release\ImageStream.obj
          x64\Release\main.obj
          x64\Release\singleImage.obj
          x64\Release\sliders.obj
          x64\Release\timingTest.obj
+         x64\Release\VideoTest.obj
+         x64\Release\webcamTest.obj
          Generating code
-         All 595 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+         1 of 812 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+           0 functions were new in current compilation
+           0 functions had inline decision re-evaluated but remain unchanged
          Finished generating code
          ConsoleApplication1.vcxproj -> C:\Users\jiwha_000\Desktop\School\Spring 18\Senior Design\ConsoleApplication1\x64\Release\ConsoleApplication1.exe
-     1>Done Building Project "C:\Users\jiwha_000\Desktop\School\Spring 18\Senior Design\ConsoleApplication1\ConsoleApplication1.vcxproj" (Rebuild target(s)).
+     1>Done Building Project "C:\Users\jiwha_000\Desktop\School\Spring 18\Senior Design\ConsoleApplication1\ConsoleApplication1.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:11.41
+Time Elapsed 00:00:02.67
